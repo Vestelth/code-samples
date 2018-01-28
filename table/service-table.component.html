@@ -1,0 +1,79 @@
+<div class="table-of-services margin-top-40 margin-bottom-50 hidden-md-down-e" id="table-of-services">
+  <div class="row table-main-row">
+    <div class="col-sm-11 services-table-column margin-auto">
+
+        <div class="row select-row margin-bottom-10">
+          <div class="service-select">
+            <span class="service-name">
+              POKAŻ KOLUMNY
+            </span>
+            <i class="fa fa-caret-down"></i>
+            <!-- TOOLTIP -->
+            <ul class="table-tooltip box-shadowed">
+              <li>
+                <label>
+                  WSZYSTKIE <input type="checkbox">
+                </label>
+              </li>
+              <li *ngFor="let header of getKeyValue(serviceTableData.tableHeaders); let i = index">
+                <label (click)="columnDisplay($event, getKey(serviceTableData.displayBool, i))">
+                  {{ getKeyValue(serviceTableData.tableHeaders, i) }} <input type="checkbox">
+                </label>
+              </li>
+            </ul>
+            <!-- /TOOLTIP -->
+          </div>
+          <form class="form-inline" novalidate="">
+            <input class="form-control"
+                  name="term"
+                  [(ngModel)]="term"
+                  placeholder="Wyszukaj"
+                  (input)="implementFilter(term)">
+          </form>
+          <a href="" class="display-summary button-default">Wyświetl podsumowanie</a>
+        </div>
+
+        <table class="row table-content-wrapper">
+
+          <!-- TABLE HEADERS -->
+          <tr class="tr header-row">
+            <th *ngFor="let header of getKeyValue(serviceTableData.tableHeaders); let i = index"
+                class="th"
+                (click)="implementSort(i)">
+              <i class="fa fa-sort"></i>
+              <p>{{ getKeyValue(serviceTableData.tableHeaders, i) }}</p>
+            </th>
+          </tr>
+
+          <!-- TABLE ROWS -->
+          <div class="table-row"
+              *ngFor="let row of dataDisplay(); let i = index">
+
+            <tr class="tr">
+              <ng-container *ngFor="let cell of getKeyValue(row); let j = index" [ngSwitch]="j">
+                <td class="td" *ngSwitchCase="0">
+                  <i [ngClass]="setService(row.service)" class="fa"></i>
+                  <p>{{getKeyValue(row, j)}}</p>
+                </td>
+                <td class="td" *ngSwitchCase="4">
+                  <span class="status" [ngClass]="setStatus(row.status, true)"></span>
+                  <p>{{setStatus(row.status, false)}}</p>
+                </td>
+                <td class="td" *ngSwitchCase="7">
+                  <p><span class="price">{{getKeyValue(row, j)}}</span>&nbsp;zł</p>
+                  <i class="fa fa-comments"></i>
+                  <i class="fa fa-pencil"></i>
+                  <i class="fa fa-trash"></i>
+                </td>
+                <td class="td" *ngSwitchDefault>
+                  <p>{{getKeyValue(row, j)}}</p>
+                </td>
+              </ng-container>
+            </tr>
+
+          </div>
+        </table>
+
+    </div>
+  </div>
+</div>
